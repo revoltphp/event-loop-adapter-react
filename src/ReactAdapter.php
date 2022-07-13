@@ -20,6 +20,7 @@ class ReactAdapter implements LoopInterface
 
     public static function get(): LoopInterface
     {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
         self::$instances ??= new \WeakMap();
 
         $driver = EventLoop::getDriver();
@@ -31,6 +32,7 @@ class ReactAdapter implements LoopInterface
     {
         $this->driver = $driver ?? EventLoop::getDriver();
 
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
         self::$instances ??= new \WeakMap();
         self::$instances[$this->driver] = $this;
     }
