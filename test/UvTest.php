@@ -2,19 +2,19 @@
 
 namespace Amp\ReactAdapter\Test;
 
-use Amp\Loop;
 use Amp\ReactAdapter\ReactAdapter;
 use React\EventLoop\LoopInterface;
+use Revolt\EventLoop;
 
 class UvTest extends Test
 {
     public function createLoop(): LoopInterface
     {
-        if (!Loop\UvDriver::isSupported()) {
-            $this->markTestSkipped("UV extension required");
+        if (!EventLoop\Driver\UvDriver::isSupported()) {
+            $this->markTestSkipped("ext-uv required");
         }
 
-        Loop::set(new Loop\UvDriver);
+        EventLoop::setDriver(new EventLoop\Driver\UvDriver);
         return ReactAdapter::get();
     }
 }

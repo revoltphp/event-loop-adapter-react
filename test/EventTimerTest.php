@@ -2,19 +2,19 @@
 
 namespace Amp\ReactAdapter\Test;
 
-use Amp\Loop;
 use Amp\ReactAdapter\ReactAdapter;
 use React\EventLoop\LoopInterface;
+use Revolt\EventLoop;
 
 class EventTimerTest extends TimerTest
 {
     public function createLoop(): LoopInterface
     {
-        if (!Loop\EventDriver::isSupported()) {
-            $this->markTestSkipped("Event extension required");
+        if (!EventLoop\Driver\EventDriver::isSupported()) {
+            $this->markTestSkipped("ext-event required");
         }
 
-        Loop::set(new Loop\EventDriver);
+        EventLoop::setDriver(new EventLoop\Driver\EventDriver);
         return ReactAdapter::get();
     }
 }
