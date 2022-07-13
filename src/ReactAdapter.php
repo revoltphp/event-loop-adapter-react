@@ -9,7 +9,8 @@ use Revolt\EventLoop\Driver;
 
 class ReactAdapter implements LoopInterface
 {
-    private static ReactAdapter $_instance;
+    private static \WeakMap $instances;
+
     private $driver;
 
     private $readWatchers = [];
@@ -19,17 +20,19 @@ class ReactAdapter implements LoopInterface
 
     public static function get(): LoopInterface
     {
-        if (isset(self::$_instance)) {
-            return self::$_instance;
-        }
-        return new self();
+        self::$instances ??= new \WeakMap();
+
+        $driver = EventLoop::getDriver();
+
+        return self::$instances[$driver] ??= new self($driver);
     }
 
     public function __construct(?Driver $driver = null)
     {
         $this->driver = $driver ?? EventLoop::getDriver();
 
-        self::$_instance = $this;
+        self::$instances ??= new \WeakMap();
+        self::$instances[$this->driver] = $this;
     }
 
     /** @inheritdoc */
