@@ -25,9 +25,9 @@ class ReactAdapter implements LoopInterface
         return new self();
     }
 
-    public function __construct(Driver $driver = null)
+    public function __construct(?Driver $driver = null)
     {
-        $this->driver = $driver ? $driver : EventLoop::getDriver();
+        $this->driver = $driver ?? EventLoop::getDriver();
 
         self::$_instance = $this;
     }
@@ -95,7 +95,7 @@ class ReactAdapter implements LoopInterface
     {
         $timer = new Timer($interval, $callback, false);
 
-        $watcher = $this->driver->delay((int) \min(\PHP_INT_MAX, \ceil(1000 * $timer->getInterval())), function () use ($timer, $callback) {
+        $watcher = $this->driver->delay($timer->getInterval(), function () use ($timer, $callback) {
             $this->cancelTimer($timer);
 
             $callback($timer);
@@ -112,7 +112,7 @@ class ReactAdapter implements LoopInterface
     {
         $timer = new Timer($interval, $callback, true);
 
-        $watcher = $this->driver->repeat((int) \min(\PHP_INT_MAX, \ceil(1000 * $timer->getInterval())), function () use ($timer, $callback) {
+        $watcher = $this->driver->repeat($timer->getInterval(), function () use ($timer, $callback) {
             $callback($timer);
         });
 
@@ -198,7 +198,7 @@ class ReactAdapter implements LoopInterface
         $this->driver->defer(function () use ($watcherId) {
             try {
                 $this->driver->enable($watcherId);
-            } catch (\Throwable $e) {
+            } catch (EventLoop\InvalidCallbackError) {
                 // ignore
             }
         });
