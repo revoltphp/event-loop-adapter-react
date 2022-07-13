@@ -2,55 +2,20 @@
 
 namespace Amp\ReactAdapter\Test;
 
-use Amp\Loop;
-use Amp\Loop\Driver;
-use Amp\Loop\UnsupportedFeatureException;
 use Amp\ReactAdapter\ReactAdapter;
 use Amp\ReactAdapter\Timer;
 use React\EventLoop\LoopInterface;
 use React\Tests\EventLoop\AbstractLoopTest;
+use Revolt\EventLoop;
+use Revolt\EventLoop\Driver;
+use Revolt\EventLoop\Driver\StreamSelectDriver;
+use Revolt\EventLoop\UnsupportedFeatureException;
 
 class Test extends AbstractLoopTest
 {
-    private $fifoPath;
-
-    public function tearDown()
-    {
-        if (\file_exists($this->fifoPath)) {
-            \unlink($this->fifoPath);
-        }
-    }
-
-    public function createStream()
-    {
-        // Ev: No report (https://bitbucket.org/osmanov/pecl-ev/issues)
-        // Event: Won't fix (https://bitbucket.org/osmanov/pecl-event/issues/2/add-support-of-php-temp)
-        // Uv: Open (https://github.com/bwoebi/php-uv/issues/35)
-
-        if (\strtoupper(\substr(PHP_OS, 0, 3)) === "WIN") {
-            return parent::createStream();
-        }
-
-        $this->fifoPath = \tempnam(\sys_get_temp_dir(), "amphp-react-adapter-");
-
-        \unlink($this->fifoPath);
-        \posix_mkfifo($this->fifoPath, 0600);
-
-        return \fopen($this->fifoPath, 'r+');
-    }
-
-    public function writeToStream($stream, $content)
-    {
-        if (\strtoupper(\substr(PHP_OS, 0, 3)) === "WIN") {
-            parent::writeToStream($stream, $content);
-        }
-
-        \fwrite($stream, $content);
-    }
-
     public function createLoop(): LoopInterface
     {
-        Loop::set(new Loop\NativeDriver);
+        EventLoop::setDriver(new StreamSelectDriver());
         return ReactAdapter::get();
     }
 
@@ -59,8 +24,7 @@ class Test extends AbstractLoopTest
         // We don't have the order guarantee, so we recreate this test
         // and accept that one handler is called, but not the other.
 
-        $stream1 = $this->createStream();
-        $stream2 = $this->createStream();
+        [$stream1, $stream2] = $this->createSocketPair();
 
         $stream1called = false;
         $stream2called = false;
@@ -79,8 +43,8 @@ class Test extends AbstractLoopTest
             $this->loop->removeReadStream($stream2);
         });
 
-        $this->writeToStream($stream1, "foo\n");
-        $this->writeToStream($stream2, "foo\n");
+        \fwrite($stream1, "foo\n");
+        \fwrite($stream2, "foo\n");
 
         $this->loop->run();
 
@@ -89,9 +53,10 @@ class Test extends AbstractLoopTest
 
     public function testCancelTimerReturnsIfNotSet()
     {
-        $timer = new Timer(0.01, function () {});
+        $timer = new Timer(0.01, function () {
+        });
 
-        $driver = $this->createMock(Driver::class);
+        $driver = $this->createMock(EventLoop\Driver::class);
         $driver->expects($this->never())->method($this->anything());
 
         $loop = new ReactAdapter($driver);
@@ -102,8 +67,9 @@ class Test extends AbstractLoopTest
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $signal = SIGTERM;
-        $listener = function () {};
+        $signal = \SIGTERM;
+        $listener = function () {
+        };
         $exception = new UnsupportedFeatureException('phpunit test');
 
         $driver = $this->createMock(Driver::class);
