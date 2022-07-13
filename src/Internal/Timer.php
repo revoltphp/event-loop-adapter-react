@@ -1,10 +1,11 @@
 <?php
 
-namespace Amp\ReactAdapter;
+namespace Amp\ReactAdapter\Internal;
 
 use React\EventLoop\TimerInterface;
 
-class Timer implements TimerInterface
+/** @internal */
+final class Timer implements TimerInterface
 {
     /** @var float */
     private float $interval;

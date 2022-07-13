@@ -2,8 +2,8 @@
 
 namespace Amp\ReactAdapter\Test;
 
+use Amp\ReactAdapter\Internal\Timer;
 use Amp\ReactAdapter\ReactAdapter;
-use Amp\ReactAdapter\Timer;
 use React\EventLoop\LoopInterface;
 use React\Tests\EventLoop\AbstractLoopTest;
 use Revolt\EventLoop;

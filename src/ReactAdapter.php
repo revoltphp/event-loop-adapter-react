@@ -2,6 +2,7 @@
 
 namespace Amp\ReactAdapter;
 
+use Amp\ReactAdapter\Internal\Timer;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
 use Revolt\EventLoop;
