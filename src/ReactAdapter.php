@@ -2,13 +2,14 @@
 
 namespace Amp\ReactAdapter;
 
-use Amp\Loop;
-use Amp\Loop\Driver;
+use Revolt\EventLoop;
+use Revolt\EventLoop\Driver;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
 
 class ReactAdapter implements LoopInterface
 {
+    private static ReactAdapter $_instance;
     private $driver;
 
     private $readWatchers = [];
@@ -18,18 +19,17 @@ class ReactAdapter implements LoopInterface
 
     public static function get(): LoopInterface
     {
-        if ($loop = Loop::getState(self::class)) {
-            return $loop;
+        if (isset(self::$_instance)) {
+            return self::$_instance;
         }
-
-        Loop::setState(self::class, $loop = new self(Loop::get()));
-
-        return $loop;
+        return new self();
     }
 
-    public function __construct(Driver $driver)
+    public function __construct(Driver $driver = null)
     {
-        $this->driver = $driver;
+        $this->driver = $driver ? $driver : EventLoop::getDriver();
+
+        self::$_instance = $this;
     }
 
     /** @inheritdoc */
@@ -155,7 +155,7 @@ class ReactAdapter implements LoopInterface
             });
 
             $this->signals[$signal][$watcherId] = $listener;
-        } catch (Loop\UnsupportedFeatureException $e) {
+        } catch (EventLoop\UnsupportedFeatureException $e) {
             throw new \BadMethodCallException("Signals aren't available in the current environment.");
         }
     }
