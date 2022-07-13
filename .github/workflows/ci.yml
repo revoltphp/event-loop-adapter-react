@@ -53,7 +53,7 @@ jobs:
           max_attempts: 5
           retry_wait_seconds: 30
           command: |
-            composer update --prefer-source --optimize-autoloader --no-interaction --no-progress ${{ matrix.composer-flags }}
+            composer update --optimize-autoloader --no-interaction --no-progress ${{ matrix.composer-flags }}
             composer info -D
 
       - name: Run tests
