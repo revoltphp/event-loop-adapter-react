@@ -2,10 +2,10 @@
 
 namespace Amp\ReactAdapter;
 
-use Revolt\EventLoop;
-use Revolt\EventLoop\Driver;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
+use Revolt\EventLoop;
+use Revolt\EventLoop\Driver;
 
 class ReactAdapter implements LoopInterface
 {
