@@ -2,6 +2,7 @@
 build
 coverage
 composer.lock
+composer-require-checker.phar
 docs/Gemfile.lock
 phpunit.xml
 vendor
