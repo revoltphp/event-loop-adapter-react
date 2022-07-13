@@ -11,12 +11,12 @@ class ReactAdapter implements LoopInterface
 {
     private static \WeakMap $instances;
 
-    private $driver;
+    private Driver $driver;
 
-    private $readWatchers = [];
-    private $writeWatchers = [];
-    private $timers = [];
-    private $signals = [];
+    private array $readWatchers = [];
+    private array $writeWatchers = [];
+    private array $timers = [];
+    private array $signals = [];
 
     public static function get(): LoopInterface
     {
@@ -35,8 +35,7 @@ class ReactAdapter implements LoopInterface
         self::$instances[$this->driver] = $this;
     }
 
-    /** @inheritdoc */
-    public function addReadStream($stream, $listener)
+    public function addReadStream($stream, $listener): void
     {
         if (isset($this->readWatchers[(int) $stream])) {
             // Double watchers are silently ignored by ReactPHP
@@ -50,8 +49,7 @@ class ReactAdapter implements LoopInterface
         $this->readWatchers[(int) $stream] = $watcher;
     }
 
-    /** @inheritdoc */
-    public function addWriteStream($stream, $listener)
+    public function addWriteStream($stream, $listener): void
     {
         if (isset($this->writeWatchers[(int) $stream])) {
             // Double watchers are silently ignored by ReactPHP
@@ -65,8 +63,7 @@ class ReactAdapter implements LoopInterface
         $this->writeWatchers[(int) $stream] = $watcher;
     }
 
-    /** @inheritdoc */
-    public function removeReadStream($stream)
+    public function removeReadStream($stream): void
     {
         $key = (int) $stream;
 
@@ -79,8 +76,7 @@ class ReactAdapter implements LoopInterface
         unset($this->readWatchers[$key]);
     }
 
-    /** @inheritdoc */
-    public function removeWriteStream($stream)
+    public function removeWriteStream($stream): void
     {
         $key = (int) $stream;
 
@@ -93,7 +89,6 @@ class ReactAdapter implements LoopInterface
         unset($this->writeWatchers[$key]);
     }
 
-    /** @inheritdoc */
     public function addTimer($interval, $callback): TimerInterface
     {
         $timer = new Timer($interval, $callback, false);
@@ -110,7 +105,6 @@ class ReactAdapter implements LoopInterface
         return $timer;
     }
 
-    /** @inheritdoc */
     public function addPeriodicTimer($interval, $callback): TimerInterface
     {
         $timer = new Timer($interval, $callback, true);
@@ -125,8 +119,7 @@ class ReactAdapter implements LoopInterface
         return $timer;
     }
 
-    /** @inheritdoc */
-    public function cancelTimer(TimerInterface $timer)
+    public function cancelTimer(TimerInterface $timer): void
     {
         if (!isset($this->timers[\spl_object_hash($timer)])) {
             return;
@@ -137,16 +130,14 @@ class ReactAdapter implements LoopInterface
         unset($this->timers[\spl_object_hash($timer)]);
     }
 
-    /** @inheritdoc */
-    public function futureTick($listener)
+    public function futureTick($listener): void
     {
         $this->driver->defer(static function () use ($listener) {
             $listener();
         });
     }
 
-    /** @inheritdoc */
-    public function addSignal($signal, $listener)
+    public function addSignal($signal, $listener): void
     {
         if (\in_array($listener, $this->signals[$signal] ?? [], true)) {
             return;
@@ -158,13 +149,12 @@ class ReactAdapter implements LoopInterface
             });
 
             $this->signals[$signal][$watcherId] = $listener;
-        } catch (EventLoop\UnsupportedFeatureException $e) {
+        } catch (EventLoop\UnsupportedFeatureException) {
             throw new \BadMethodCallException("Signals aren't available in the current environment.");
         }
     }
 
-    /** @inheritdoc */
-    public function removeSignal($signal, $listener)
+    public function removeSignal($signal, $listener): void
     {
         if (!isset($this->signals[$signal])) {
             return;
@@ -183,19 +173,17 @@ class ReactAdapter implements LoopInterface
         }
     }
 
-    /** @inheritdoc */
-    public function run()
+    public function run(): void
     {
         $this->driver->run();
     }
 
-    /** @inheritdoc */
-    public function stop()
+    public function stop(): void
     {
         $this->driver->stop();
     }
 
-    private function deferEnabling(string $watcherId)
+    private function deferEnabling(string $watcherId): void
     {
         $this->driver->disable($watcherId);
         $this->driver->defer(function () use ($watcherId) {

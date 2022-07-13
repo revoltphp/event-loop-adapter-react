@@ -7,13 +7,13 @@ use React\EventLoop\TimerInterface;
 class Timer implements TimerInterface
 {
     /** @var float */
-    private $interval;
+    private float $interval;
 
     /** @var callable */
     private $callback;
 
     /** @var bool */
-    private $periodic;
+    private bool $periodic;
 
     public function __construct(float $interval, callable $callback, bool $periodic = false)
     {
@@ -26,19 +26,16 @@ class Timer implements TimerInterface
         $this->periodic = $periodic;
     }
 
-    /** @inheritdoc */
     public function getInterval(): float
     {
         return $this->interval;
     }
 
-    /** @inheritdoc */
     public function getCallback(): callable
     {
         return $this->callback;
     }
 
-    /** @inheritdoc */
     public function isPeriodic(): bool
     {
         return $this->periodic;
