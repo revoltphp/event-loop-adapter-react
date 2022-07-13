@@ -13,7 +13,6 @@
         "irc": "irc://irc.freenode.org/amphp"
     },
     "require": {
-        "amphp/amp": "v3.x-dev",
         "react/event-loop": "^0.5 || ^1",
         "revolt/event-loop": "^0.2.1"
     },
