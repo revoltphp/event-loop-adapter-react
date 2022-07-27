@@ -6,7 +6,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 // This will throw an error by default to ensure users are aware they're creating an additional event loop,
-// which will probably happen by accident. Try running this script with AMP_REACT_ADAPTER_DISABLE_FACTORY_OVERRIDE=1
+// which will probably happen by accident. Try running this script with REVOLT_ADAPTER_REACT_DISABLE_FACTORY_OVERRIDE=1
 // to disable this protection, which will make this script run just fine.
 $loop = React\EventLoop\Factory::create();
 

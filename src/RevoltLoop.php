@@ -1,14 +1,13 @@
 <?php
 
-namespace Amp\ReactAdapter;
+namespace Revolt\EventLoop\Adapter\React;
 
-use Amp\ReactAdapter\Internal\Timer;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
 use Revolt\EventLoop;
 use Revolt\EventLoop\Driver;
 
-class ReactAdapter implements LoopInterface
+final class RevoltLoop implements LoopInterface
 {
     private static \WeakMap $instances;
 

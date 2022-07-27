@@ -1,12 +1,11 @@
 <?php
 
-namespace Amp\ReactAdapter\Test;
+namespace Revolt\EventLoop\Adapter\React;
 
-use Amp\ReactAdapter\Internal\Timer;
-use Amp\ReactAdapter\ReactAdapter;
 use React\EventLoop\LoopInterface;
 use React\Tests\EventLoop\AbstractLoopTest;
 use Revolt\EventLoop;
+use Revolt\EventLoop\Adapter\React\Internal\Timer;
 use Revolt\EventLoop\Driver;
 use Revolt\EventLoop\Driver\StreamSelectDriver;
 use Revolt\EventLoop\UnsupportedFeatureException;
@@ -16,7 +15,7 @@ class Test extends AbstractLoopTest
     public function createLoop(): LoopInterface
     {
         EventLoop::setDriver(new StreamSelectDriver());
-        return ReactAdapter::get();
+        return RevoltLoop::get();
     }
 
     public function testIgnoreRemovedCallback()
@@ -59,7 +58,7 @@ class Test extends AbstractLoopTest
         $driver = $this->createMock(EventLoop\Driver::class);
         $driver->expects($this->never())->method($this->anything());
 
-        $loop = new ReactAdapter($driver);
+        $loop = new RevoltLoop($driver);
         $loop->cancelTimer($timer);
     }
 
@@ -75,7 +74,7 @@ class Test extends AbstractLoopTest
         $driver = $this->createMock(Driver::class);
         $driver->method('onSignal')->with($signal, $listener)->willThrowException($exception);
 
-        $loop = new ReactAdapter($driver);
+        $loop = new RevoltLoop($driver);
         $loop->addSignal($signal, $listener);
     }
 }

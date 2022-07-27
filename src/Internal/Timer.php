@@ -1,6 +1,6 @@
 <?php
 
-namespace Amp\ReactAdapter\Internal;
+namespace Revolt\EventLoop\Adapter\React\Internal;
 
 use React\EventLoop\TimerInterface;
 

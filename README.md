@@ -1,21 +1,21 @@
-# react-adapter
+# event-loop-adapter-react
 
-[![Build Status](https://img.shields.io/travis/amphp/react-adapter/master.svg?style=flat-square)](https://travis-ci.org/amphp/react-adapter)
-[![Coverage Status](https://img.shields.io/coveralls/amphp/react-adapter/master.svg?style=flat-square)](https://coveralls.io/github/amphp/react-adapter?branch=master)
 ![Stable](https://img.shields.io/badge/stability-stable-green.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
-`amphp/react-adapter` makes any [ReactPHP](https://reactphp.org/) library compatible with [Revolt's event loop](https://revolt.run) and v3 of [Amp](https://github.com/amphp/amp).
+`revolt/event-loop-adapter-react` makes any [ReactPHP](https://reactphp.org/) library run on top of
+the [Revolt event loop](https://revolt.run).
 
 ## Installation
 
 ```bash
-composer require amphp/react-adapter
+composer require revolt/event-loop-adapter-react
 ```
 
 ## Usage
 
-Everywhere where a ReactPHP library requires an instance of `LoopInterface`, you just pass `ReactAdapter::get()` to run the ReactPHP library on [Revolt](https://revolt.run/) event loop.
+Everywhere where a ReactPHP library requires an instance of `LoopInterface`, you just pass `ReactAdapter::get()` to run
+the ReactPHP library on the [Revolt event loop](https://revolt.run/).
 
 ```php
 <?php
@@ -23,7 +23,7 @@ Everywhere where a ReactPHP library requires an instance of `LoopInterface`, you
 require 'vendor/autoload.php';
 
 use Revolt\EventLoop;
-use Amp\ReactAdapter\ReactAdapter;
+use Revolt\EventLoop\Adapter\React\RevoltLoop;
 
 EventLoop::defer(function () {
     $app = function ($request, $response) {
@@ -31,8 +31,8 @@ EventLoop::defer(function () {
         $response->end("Hello World\n");
     };
 
-    $socket = new React\Socket\Server(ReactAdapter::get());
-    $http = new React\Http\Server($socket, ReactAdapter::get());
+    $socket = new React\Socket\Server(RevoltLoop::get());
+    $http = new React\Http\Server($socket, RevoltLoop::get());
 
     $http->on('request', $app);
     echo "Server running at http://127.0.0.1:1337\n";
@@ -41,12 +41,9 @@ EventLoop::defer(function () {
 });
 ```
 
-You can also use the adapter to run ReactPHP apps on an [Revolt](https://revolt.run/) event loop implementation without relying on Revolt's global event loop.
+You can also use the adapter to run ReactPHP apps on a specific [Revolt event loop](https://revolt.run/) implementation
+without relying on Revolt's global event loop.
 
 ```php
-$loop = new Amp\ReactAdapter\ReactAdapter((new Revolt\EventLoop\DriverFactory)->create());
+$loop = new Revolt\EventLoop\Adapter\React\RevoltLoop((new Revolt\EventLoop\DriverFactory)->create());
 ```
-
-## Documentation
-
-Documentation is available on [amphp.org/react-adapter](https://amphp.org/react-adapter/).

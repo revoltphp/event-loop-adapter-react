@@ -1,8 +1,7 @@
 <?php
 
-namespace Amp\ReactAdapter\Test;
+namespace Revolt\EventLoop\Adapter\React;
 
-use Amp\ReactAdapter\ReactAdapter;
 use React\EventLoop\LoopInterface;
 use Revolt\EventLoop;
 
@@ -15,6 +14,6 @@ class EvTimerTest extends TimerTest
         }
 
         EventLoop::setDriver(new EventLoop\Driver\EvDriver);
-        return ReactAdapter::get();
+        return RevoltLoop::get();
     }
 }

@@ -10,21 +10,32 @@ submission. Please adhere to [sound bug reporting principles](http://www.chiark.
 Truths which we believe to be self-evident:
 
 - **It's an asynchronous world.**  Be wary of anything that undermines
-   async principles.
+  async principles.
 
 - **The answer is not more options.**  If you feel compelled to expose
-   new preferences to the user it's very possible you've made a wrong
-   turn somewhere.
+  new preferences to the user it's very possible you've made a wrong
+  turn somewhere.
 
 - **There are no power users.** The idea that some users "understand"
-   concepts better than others has proven to be, for the most part, false.
-   If anything, "power users" are more dangerous than the rest, and we
-   should avoid exposing dangerous functionality to them.
+  concepts better than others has proven to be, for the most part, false.
+  If anything, "power users" are more dangerous than the rest, and we
+  should avoid exposing dangerous functionality to them.
 
 ## Code style
 
-The amphp project adheres to the PSR-2 style guide with the exception that
-opening braces for classes and methods must appear on the same line as
-the declaration:
+The project adheres to the [PSR-2 style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+).
 
-https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+To apply code standards you can run `php-cs-fixer` with following composer command:
+
+```bash
+composer code-style
+```
+
+## Running the tests
+
+Run the test suite from root directory:
+
+```bash
+composer test
+```
