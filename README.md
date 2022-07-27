@@ -25,20 +25,20 @@ require 'vendor/autoload.php';
 use Revolt\EventLoop;
 use Revolt\EventLoop\Adapter\React\RevoltLoop;
 
-EventLoop::defer(function () {
-    $app = function ($request, $response) {
-        $response->writeHead(200, array('Content-Type' => 'text/plain'));
-        $response->end("Hello World\n");
-    };
+$app = function ($request, $response) {
+    $response->writeHead(200, array('Content-Type' => 'text/plain'));
+    $response->end("Hello World\n");
+};
 
-    $socket = new React\Socket\Server(RevoltLoop::get());
-    $http = new React\Http\Server($socket, RevoltLoop::get());
+$socket = new React\Socket\Server(RevoltLoop::get());
+$http = new React\Http\Server($socket, RevoltLoop::get());
 
-    $http->on('request', $app);
-    echo "Server running at http://127.0.0.1:1337\n";
+$http->on('request', $app);
+echo "Server running at http://127.0.0.1:1337\n";
 
-    $socket->listen(1337);
-});
+$socket->listen(1337);
+
+EventLoop::run();
 ```
 
 You can also use the adapter to run ReactPHP apps on a specific [Revolt event loop](https://revolt.run/) implementation
