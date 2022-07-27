@@ -13,7 +13,7 @@ class EventTimerTest extends TimerTest
             $this->markTestSkipped("ext-event required");
         }
 
-        EventLoop::setDriver(new EventLoop\Driver\EventDriver);
+        EventLoop::setDriver(new EventLoop\Driver\EventDriver());
         return RevoltLoop::get();
     }
 }

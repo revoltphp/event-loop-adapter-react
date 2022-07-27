@@ -13,7 +13,7 @@ class EventTest extends Test
             $this->markTestSkipped("ext-event required");
         }
 
-        EventLoop::setDriver(new EventLoop\Driver\EventDriver);
+        EventLoop::setDriver(new EventLoop\Driver\EventDriver());
         return EventLoop\Adapter\React\RevoltLoop::get();
     }
 }

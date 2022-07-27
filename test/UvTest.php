@@ -13,7 +13,7 @@ class UvTest extends Test
             $this->markTestSkipped("ext-uv required");
         }
 
-        EventLoop::setDriver(new EventLoop\Driver\UvDriver);
+        EventLoop::setDriver(new EventLoop\Driver\UvDriver());
         return RevoltLoop::get();
     }
 }

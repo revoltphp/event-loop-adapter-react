@@ -13,7 +13,7 @@ class UvTimerTest extends TimerTest
             $this->markTestSkipped("ext-uv required");
         }
 
-        EventLoop::setDriver(new EventLoop\Driver\UvDriver);
+        EventLoop::setDriver(new EventLoop\Driver\UvDriver());
         return RevoltLoop::get();
     }
 }

@@ -17,6 +17,7 @@
         "revolt/event-loop": "^0.2.4"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.5.21",
         "psalm/phar": "^4.24"
     },

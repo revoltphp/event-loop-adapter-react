@@ -13,7 +13,7 @@ class EvTest extends Test
             $this->markTestSkipped("ext-ev required");
         }
 
-        EventLoop::setDriver(new EventLoop\Driver\EvDriver);
+        EventLoop::setDriver(new EventLoop\Driver\EvDriver());
         return RevoltLoop::get();
     }
 }
