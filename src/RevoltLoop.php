@@ -5,6 +5,7 @@ namespace Revolt\EventLoop\Adapter\React;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
 use Revolt\EventLoop;
+use Revolt\EventLoop\Adapter\React\Internal\Timer;
 use Revolt\EventLoop\Driver;
 
 final class RevoltLoop implements LoopInterface
