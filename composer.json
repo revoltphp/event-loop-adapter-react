@@ -26,6 +26,7 @@
             "Revolt\\EventLoop\\Adapter\\React\\": "src"
         },
         "files": [
+            "src/bootstrap.php",
             "etc/Factory.php"
         ]
     },
