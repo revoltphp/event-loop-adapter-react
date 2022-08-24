@@ -1,9 +1,9 @@
 <?php
 
 use React\EventLoop\Loop;
-use Revolt\EventLoop\Adapter\React\RevoltLoop;
+use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
 
 /**
  * @psalm-suppress InternalMethod
  */
-Loop::set(RevoltLoop::get());
+Loop::set(EventLoopAdapter::get());

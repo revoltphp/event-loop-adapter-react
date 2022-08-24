@@ -4,6 +4,7 @@ namespace Revolt\EventLoop\Adapter\React;
 
 use React\EventLoop\LoopInterface;
 use Revolt\EventLoop;
+use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
 
 class UvTimerTest extends TimerTest
 {
@@ -14,6 +15,6 @@ class UvTimerTest extends TimerTest
         }
 
         EventLoop::setDriver(new EventLoop\Driver\UvDriver());
-        return RevoltLoop::get();
+        return EventLoopAdapter::get();
     }
 }

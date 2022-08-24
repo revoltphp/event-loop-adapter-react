@@ -14,24 +14,24 @@ composer require revolt/event-loop-adapter-react
 
 ## Usage
 
-Everywhere where a ReactPHP library requires an instance of `LoopInterface`, you just pass `ReactAdapter::get()` to run
-the ReactPHP library on the [Revolt event loop](https://revolt.run/).
+Everywhere where a ReactPHP library requires an instance of `LoopInterface`, you just pass `Loop::get()` as normal.
+We automatically set up everything to run the ReactPHP library on the [Revolt event loop](https://revolt.run/).
 
 ```php
 <?php
 
 require 'vendor/autoload.php';
 
+use React\EventLoop\Loop;
 use Revolt\EventLoop;
-use Revolt\EventLoop\Adapter\React\RevoltLoop;
 
 $app = function ($request, $response) {
     $response->writeHead(200, array('Content-Type' => 'text/plain'));
     $response->end("Hello World\n");
 };
 
-$socket = new React\Socket\Server(RevoltLoop::get());
-$http = new React\Http\Server($socket, RevoltLoop::get());
+$socket = new React\Socket\Server(Loop::get());
+$http = new React\Http\Server($socket, Loop::get());
 
 $http->on('request', $app);
 echo "Server running at http://127.0.0.1:1337\n";
@@ -39,11 +39,4 @@ echo "Server running at http://127.0.0.1:1337\n";
 $socket->listen(1337);
 
 EventLoop::run();
-```
-
-You can also use the adapter to run ReactPHP apps on a specific [Revolt event loop](https://revolt.run/) implementation
-without relying on Revolt's global event loop.
-
-```php
-$loop = new Revolt\EventLoop\Adapter\React\RevoltLoop((new Revolt\EventLoop\DriverFactory)->create());
 ```

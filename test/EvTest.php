@@ -4,6 +4,7 @@ namespace Revolt\EventLoop\Adapter\React;
 
 use React\EventLoop\LoopInterface;
 use Revolt\EventLoop;
+use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
 
 class EvTest extends Test
 {
@@ -14,6 +15,6 @@ class EvTest extends Test
         }
 
         EventLoop::setDriver(new EventLoop\Driver\EvDriver());
-        return RevoltLoop::get();
+        return EventLoopAdapter::get();
     }
 }

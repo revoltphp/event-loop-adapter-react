@@ -4,6 +4,7 @@ namespace Revolt\EventLoop\Adapter\React;
 
 use React\EventLoop\LoopInterface;
 use Revolt\EventLoop;
+use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
 
 class EventTimerTest extends TimerTest
 {
@@ -14,6 +15,6 @@ class EventTimerTest extends TimerTest
         }
 
         EventLoop::setDriver(new EventLoop\Driver\EventDriver());
-        return RevoltLoop::get();
+        return EventLoopAdapter::get();
     }
 }

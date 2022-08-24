@@ -2,7 +2,7 @@
 
 namespace React\EventLoop;
 
-use Revolt\EventLoop\Adapter\React\RevoltLoop;
+use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
 
 (static function () {
     $constName = 'REVOLT_ADAPTER_REACT_DISABLE_FACTORY_OVERRIDE';
@@ -23,7 +23,7 @@ use Revolt\EventLoop\Adapter\React\RevoltLoop;
             {
                 throw new \Error(
                     __METHOD__ . '() has been overridden by revolt/event-loop-adapter-react to prevent you from accidentally creating two event loop instances. ' .
-                    'Use ' . RevoltLoop::class . '::get() instead of React\EventLoop\Factory::create() to ensure everything is running on the same event loop. ' .
+                    'Use ' . EventLoopAdapter::class . '::get() instead of React\EventLoop\Factory::create() to ensure everything is running on the same event loop. ' .
                     'You may set a constant or environment variable named REVOLT_ADAPTER_REACT_DISABLE_FACTORY_OVERRIDE to disable this protection or open an issue at https://github.com/revoltphp/event-loop-adapter-react if you\'re unsure on the right way forward.'
                 );
             }

@@ -14,6 +14,6 @@ class EventTest extends Test
         }
 
         EventLoop::setDriver(new EventLoop\Driver\EventDriver());
-        return EventLoop\Adapter\React\RevoltLoop::get();
+        return Internal\EventLoopAdapter::get();
     }
 }
