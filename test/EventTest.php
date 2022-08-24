@@ -1,6 +1,6 @@
 <?php
 
-namespace Revolt\EventLoop\Adapter\React;
+namespace Revolt\EventLoop\React;
 
 use React\EventLoop\LoopInterface;
 use Revolt\EventLoop;

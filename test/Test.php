@@ -1,14 +1,14 @@
 <?php
 
-namespace Revolt\EventLoop\Adapter\React;
+namespace Revolt\EventLoop\React;
 
 use React\EventLoop\LoopInterface;
 use React\Tests\EventLoop\AbstractLoopTest;
 use Revolt\EventLoop;
-use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
-use Revolt\EventLoop\Adapter\React\Internal\Timer;
 use Revolt\EventLoop\Driver;
 use Revolt\EventLoop\Driver\StreamSelectDriver;
+use Revolt\EventLoop\React\Internal\EventLoopAdapter;
+use Revolt\EventLoop\React\Internal\Timer;
 use Revolt\EventLoop\UnsupportedFeatureException;
 
 class Test extends AbstractLoopTest

@@ -1,11 +1,11 @@
 <?php
 
-namespace Revolt\EventLoop\Adapter\React;
+namespace Revolt\EventLoop\React;
 
 use React\EventLoop\LoopInterface;
 use React\Tests\EventLoop\Timer\AbstractTimerTest;
 use Revolt\EventLoop;
-use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
+use Revolt\EventLoop\React\Internal\EventLoopAdapter;
 
 class TimerTest extends AbstractTimerTest
 {

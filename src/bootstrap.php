@@ -1,7 +1,7 @@
 <?php
 
 use React\EventLoop\Loop;
-use Revolt\EventLoop\Adapter\React\Internal\EventLoopAdapter;
+use Revolt\EventLoop\React\Internal\EventLoopAdapter;
 
 /**
  * @psalm-suppress InternalMethod
