@@ -13,8 +13,16 @@ use Revolt\EventLoop\UnsupportedFeatureException;
 
 class Test extends AbstractLoopTest
 {
+    /** @noinspection PhpUndefinedFieldInspection */
+    protected static function clearGlobalLoop(): void
+    {
+        (static fn () => self::$driver = new EventLoop\Driver\StreamSelectDriver())
+            ->bindTo(null, EventLoop::class)();
+    }
+
     public function createLoop(): LoopInterface
     {
+        self::clearGlobalLoop();
         EventLoop::setDriver(new StreamSelectDriver());
         return EventLoopAdapter::get();
     }

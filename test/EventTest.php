@@ -13,6 +13,7 @@ class EventTest extends Test
             $this->markTestSkipped("ext-event required");
         }
 
+        self::clearGlobalLoop();
         EventLoop::setDriver(new EventLoop\Driver\EventDriver());
         return Internal\EventLoopAdapter::get();
     }

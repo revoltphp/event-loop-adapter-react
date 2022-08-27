@@ -14,6 +14,7 @@ class UvTimerTest extends TimerTest
             $this->markTestSkipped("ext-uv required");
         }
 
+        self::clearGlobalLoop();
         EventLoop::setDriver(new EventLoop\Driver\UvDriver());
         return EventLoopAdapter::get();
     }
