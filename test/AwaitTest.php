@@ -2,7 +2,6 @@
 
 namespace Revolt\EventLoop\React;
 
-use PHPUnit\Framework\TestResult;
 use React;
 
 class AwaitTest extends React\Tests\Async\AwaitTest
