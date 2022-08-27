@@ -16,8 +16,13 @@ final class FiberAdapter implements FiberInterface
             throw new \Error('Must call suspend() before calling resume()');
         }
 
-        // Note: resume() is async in revolt, but sync in react
         $this->suspension->resume($value);
+
+        // Note: resume() above is async in revolt, but sync in react,
+        // so let's suspend here until the queued resumption above is executed.
+        $suspension = EventLoop::getSuspension();
+        EventLoop::queue($suspension->resume(...));
+        $suspension->suspend();
     }
 
     public function throw(\Throwable $throwable): void
@@ -26,8 +31,13 @@ final class FiberAdapter implements FiberInterface
             throw new \Error('Must call suspend() before calling throw()');
         }
 
-        // Note: throw() is async in revolt, but sync in react
         $this->suspension->throw($throwable);
+
+        // Note: throw() above is async in revolt, but sync in react,
+        // so let's suspend here until the queued throwing above is executed.
+        $suspension = EventLoop::getSuspension();
+        EventLoop::queue($suspension->resume(...));
+        $suspension->suspend();
     }
 
     public function suspend(): mixed
