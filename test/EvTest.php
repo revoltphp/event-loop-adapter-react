@@ -14,6 +14,7 @@ class EvTest extends Test
             $this->markTestSkipped("ext-ev required");
         }
 
+        self::clearGlobalLoop();
         EventLoop::setDriver(new EventLoop\Driver\EvDriver());
         return EventLoopAdapter::get();
     }

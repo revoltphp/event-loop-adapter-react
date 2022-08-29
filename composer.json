@@ -13,6 +13,7 @@
     },
     "require": {
         "php": ">=8.1",
+        "react/async": "^4",
         "react/event-loop": "^0.5 || ^1",
         "revolt/event-loop": "^0.2.4"
     },
@@ -33,11 +34,13 @@
     "autoload-dev": {
         "psr-4": {
             "Revolt\\EventLoop\\React\\": "test",
+            "React\\Tests\\Async\\": "vendor/react/async/tests",
             "React\\Tests\\EventLoop\\": "vendor/react/event-loop/tests"
         }
     },
     "config": {
         "preferred-install": {
+            "react/async": "source",
             "react/event-loop": "source"
         }
     },

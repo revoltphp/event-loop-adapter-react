@@ -14,6 +14,7 @@ class EventTimerTest extends TimerTest
             $this->markTestSkipped("ext-event required");
         }
 
+        self::clearGlobalLoop();
         EventLoop::setDriver(new EventLoop\Driver\EventDriver());
         return EventLoopAdapter::get();
     }
