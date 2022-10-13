@@ -10,7 +10,8 @@ use Revolt\EventLoop\Driver;
 /** @internal */
 final class EventLoopAdapter implements LoopInterface
 {
-    private static \WeakMap $instances;
+    /** @var array<int, \WeakReference<self>> */
+    private static array $instances = [];
 
     private Driver $driver;
 
@@ -21,21 +22,27 @@ final class EventLoopAdapter implements LoopInterface
 
     public static function get(): LoopInterface
     {
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
-        self::$instances ??= new \WeakMap();
-
         $driver = EventLoop::getDriver();
 
-        return self::$instances[$driver] ??= new self($driver);
+        if ($reference = self::$instances[\spl_object_id($driver)] ?? null) {
+            $loop = $reference->get();
+            \assert($loop instanceof self);
+            return $loop;
+        }
+
+        return new self($driver);
     }
 
     public function __construct(?Driver $driver = null)
     {
         $this->driver = $driver ?? EventLoop::getDriver();
 
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
-        self::$instances ??= new \WeakMap();
-        self::$instances[$this->driver] = $this;
+        self::$instances[\spl_object_id($this->driver)] = \WeakReference::create($this);
+    }
+
+    public function __destruct()
+    {
+        unset(self::$instances[\spl_object_id($this->driver)]);
     }
 
     public function addReadStream($stream, $listener): void
