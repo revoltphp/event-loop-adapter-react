@@ -147,8 +147,8 @@ final class EventLoopAdapter implements LoopInterface
         }
 
         try {
-            $watcherId = $this->driver->onSignal($signal, static function () use ($listener) {
-                $listener();
+            $watcherId = $this->driver->onSignal($signal, static function () use ($listener, $signal) {
+                $listener($signal);
             });
 
             $this->signals[$signal][$watcherId] = $listener;
