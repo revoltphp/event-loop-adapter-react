@@ -20,7 +20,7 @@ class AwaitTest extends React\Tests\Async\AwaitTest
 
         $promises[] = React\Async\async(function () use ($deferred) {
             print 'c';
-            $deferred->resolve();
+            $deferred->resolve(null);
             print 'd';
         })();
 
