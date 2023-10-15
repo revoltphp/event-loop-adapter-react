@@ -72,7 +72,6 @@ final class Config extends PhpCsFixerConfig
             "psr_autoloading" => ['dir' => $this->src],
             "return_type_declaration" => ["space_before" => "none"],
             "short_scalar_cast" => true,
-            "single_blank_line_before_namespace" => true,
             "line_ending" => true,
         ];
     }
